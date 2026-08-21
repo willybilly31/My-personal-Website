@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liam - Projects</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+    margin: 0;
+    min-height: 100vh;
+    background: #11141a;
+    color: #d9dce2;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image: url("Dawn_at_Parliament_Hill_in_Ottawa.jpg");
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0.25;
+    filter: grayscale(100%);
+
+    z-index: -2;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: #11141a;
+    opacity: 0.65;
+
+    z-index: -1;
+}
+
+        .page {
+            width: 900px;
+            max-width: 90%;
+            padding: 40px 0;
+        }
+
+        .projects {
+            padding: 40px;
+            background: #15181e;
+            border: 1px solid #242830;
+            border-radius: 20px;
+        }
+
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 42px;
+            color: #f0f1f3;
+        }
+
+        .back {
+            color: #353388;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .project {
+            background: #11141a;
+            border: 1px solid #242830;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .project:hover {
+            border-color: #353388;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            background: #20242b;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project h2 {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            color: #f0f1f3;
+        }
+
+        .project p {
+            margin: 0 0 15px 0;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #aeb3bc;
+        }
+
+        .project a {
+            color: #353388;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .project a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+            .projects {
+                padding: 25px;
+            }
+
+            .top {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .project-image {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="projects">
+
+            <div class="top">
+                <h1>Projects</h1>
+
+                <a class="back" href="index.html">← Back</a>
+            </div>
+
+            <div class="gallery">
+
+                <div class="project">
+                    <img class="project-image" src="GamblOS SS.png" alt="GamblOS">
+
+                    <div class="project-content">
+                        <h2>GamblOS</h2>
+
+                        <p>
+                            A simple web-based operating system made for Stardance.
+                            Features a green and black interface with small built-in apps.
+                        </p>
+
+                        <a href="https://willybilly31.github.io/GamblOS/">View project →</a>
+                    </div>
+                </div>
+
+
+                <div class="project">
+                    <img class="project-image" src="project2.png" alt="Electronics projects">
+
+                    <div class="project-content">
+                        <h2>Electronics projects</h2>
+
+                        <p>
+                            A collection of small electronics projects using Arduino,
+                            LEDs, buttons, sensors and buzzers.
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <div class="project">
+                    <img class="project-image" src="CADexample.png" alt="CAD Design">
+
+                    <div class="project-content">
+                        <h2>CAD Design</h2>
+
+                        <p>
+                            Mechanical and electronic parts designed in CAD software, including mounts, enclosures and random experiments.
+                        </p>
+
+                       
+                    </div>
+                </div>
+
+
+                <div class="project">
+                    <img class="project-image" src="project4.png" alt="3D printing">
+
+                    <div class="project-content">
+                        <h2>3D Printing</h2>
+
+                        <p>
+                            Things I've designed and made with 3D printing,
+                            including parts, mounts and random experiments.
+                        </p>
+
+                       
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

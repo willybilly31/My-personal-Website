@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liam</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+    margin: 0;
+    min-height: 100vh;
+    background: #11141a;
+    color: #d9dce2;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image: url("Dawn_at_Parliament_Hill_in_Ottawa.jpg");
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0.25;
+    filter: grayscale(100%);
+
+    z-index: -2;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: #11141a;
+    opacity: 0.65;
+
+    z-index: -1;
+}
+
+        .page {
+            width: 900px;
+            max-width: 90%;
+        }
+
+
+        .profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 55px;
+
+            padding: 45px;
+            background: #15181e;
+            border: 1px solid #242830;
+            border-radius: 20px;
+        }
+
+        .photo {
+            width: 230px;
+            height: 230px;
+            flex-shrink: 0;
+
+            border-radius: 20px;
+            object-fit: cover;
+            background: #20242b;
+        }
+
+        .content {
+            width: 500px;
+        }
+
+        h1 {
+            margin: 0 0 25px 0;
+            font-size: 42px;
+            color: #f0f1f3;
+        }
+
+        .line {
+            display: flex;
+            gap: 16px;
+            margin: 18px 0;
+
+            font-size: 17px;
+            line-height: 1.5;
+            color: #aeb3bc;
+        }
+
+        .icon {
+            width: 22px;
+            flex-shrink: 0;
+            color: #777e89;
+            font-size: 18px;
+        }
+
+        a {
+            color: #353388;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 800px) {
+            .status {
+                margin-bottom: 60px;
+            }
+
+            .profile {
+                flex-direction: column;
+                gap: 30px;
+                padding: 35px 25px;
+            }
+
+            .content {
+                width: 100%;
+            }
+
+            .photo {
+                width: 190px;
+                height: 190px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .line {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="status">
+        
+        </div>
+
+        <div class="profile">
+
+            <img class="photo" src="MiiHeadshot.png" alt="">
+
+            <div class="content">
+
+                <h1>Liam</h1>
+
+                <div class="line">
+                    <span class="icon">⚑</span>
+                    <span>
+                        Based in Ottawa, Canada.
+                    </span>
+                </div>
+
+                <div class="line">
+                    <span class="icon">⌘</span>
+                    <span>
+                        High school student and developer interested in
+                        electronics, software and making things
+                    </span>
+                </div>
+
+                <div class="line">
+                    <span class="icon">›_</span>
+                    <span>
+                        Small Electronics projects, Arduino, Raspberry Pi, ESP32.
+                        Dabbling with some web development
+                    </span>
+                </div>
+
+                <div class="line">
+                    <span class="icon">⌁</span>
+                    <span>
+                        I like building random projects and
+                        figuring out how things work
+                    </span>
+                </div>
+
+                <div class="line">
+                    <span class="icon">↗</span>
+                    <span>
+                        check out my
+                        <a href="projects.html">projects</a>
+                        and
+                        <a href="https://github.com/willybilly31">GitHub</a>
+                    </span>
+                </div>
+
+                <div class="line">
+                    <span class="icon">@</span>
+                    <span>
+                        reachable via
+                        <a href="mailto:mrliamcarlson@gmail.com">email</a>
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
