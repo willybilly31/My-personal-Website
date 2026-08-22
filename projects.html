@@ -9,95 +9,51 @@
     <style>
         * {
             box-sizing: border-box;
+            cursor: none;
         }
 
         body {
-    margin: 0;
-    min-height: 100vh;
-    background: #11141a;
-    color: #d9dce2;
-    font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: #11141a;
+            color: #d9dce2;
+            font-family: Arial, sans-serif;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    position: relative;
-    overflow: hidden;
-}
+            position: relative;
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
 
-    background-image: url("Dawn_at_Parliament_Hill_in_Ottawa.jpg");
-    background-size: cover;
-    background-position: center;
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
 
-    opacity: 0.25;
-    filter: grayscale(100%);
+            background-image: url("Dawn_at_Parliament_Hill_in_Ottawa.jpg");
+            background-size: cover;
+            background-position: center;
 
-    z-index: -2;
-}
-* {
-    cursor: none;
-}
+            opacity: 0.25;
+            filter: grayscale(100%);
 
-.cursor {
-    position: fixed;
-    left: 0;
-    top: 0;
+            z-index: -2;
+        }
 
-    width: 10px;
-    height: 10px;
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
 
-    border-radius: 50%;
+            background: #11141a;
+            opacity: 0.65;
 
-    background: white;
-    mix-blend-mode: difference;
-
-    pointer-events: none;
-
-    transform: translate(-50%, -50%);
-
-    z-index: 9999;
-
-    transition:
-        width 0.2s ease,
-        height 0.2s ease,
-        border-radius 0.2s ease;
-}
-
-/* Bigger when hovering links */
-
-.cursor.hover {
-    width: 30px;
-    height: 30px;
-}
-
-/* Thin line when hovering text */
-
-.cursor.text {
-    width: 2px;
-    height: 28px;
-
-    border-radius: 0;
-
-    background: white;
-}
-
-
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-
-    background: #11141a;
-    opacity: 0.65;
-
-    z-index: -1;
-}
+            z-index: -1;
+        }
 
         .page {
             width: 900px;
@@ -159,7 +115,6 @@ body::after {
             object-fit: cover;
             display: block;
             background: #20242b;
-
         }
 
         .project-content {
@@ -189,7 +144,53 @@ body::after {
             text-decoration: underline;
         }
 
+        /* Main cursor */
+
+        .cursor {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: white;
+            mix-blend-mode: difference;
+
+            pointer-events: none;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 9999;
+
+            transition:
+                width 0.2s ease,
+                height 0.2s ease,
+                border-radius 0.2s ease;
+        }
+
+        /* Cursor when hovering a link */
+
+        .cursor.hover {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Cursor when hovering text */
+
+        .cursor.text {
+            width: 2px;
+            height: 28px;
+
+            border-radius: 0;
+
+            background: white;
+        }
+
         @media (max-width: 700px) {
+
             .projects {
                 padding: 25px;
             }
@@ -214,8 +215,10 @@ body::after {
         }
     </style>
 </head>
+
 <body>
-<div class="cursor"></div>
+
+    <div class="cursor"></div>
 
     <div class="page">
 
@@ -244,19 +247,18 @@ body::after {
                     </div>
                 </div>
 
-
                 <div class="project">
                     <img class="project-image" src="Electronics.Png" alt="Electronics projects">
+
                     <div class="project-content">
                         <h2>Electronics projects</h2>
+
                         <p>
                             Small electronics projects using Arduino,
                             LEDs, buttons, sensors and buzzers.
                         </p>
-
                     </div>
                 </div>
-
 
                 <div class="project">
                     <img class="project-image" src="CADexample.png" alt="CAD Design">
@@ -265,13 +267,11 @@ body::after {
                         <h2>CAD Design</h2>
 
                         <p>
-                            Mechanical and electronic parts designed in CAD software, including mounts, enclosures and random experiments.
+                            Mechanical and electronic parts designed in CAD software,
+                            including mounts, enclosures and random experiments.
                         </p>
-
-                       
                     </div>
                 </div>
-
 
                 <div class="project">
                     <img class="project-image" src="3Dprinter.png" alt="3D printing">
@@ -280,10 +280,9 @@ body::after {
                         <h2>3D Printing</h2>
 
                         <p>
-                            I have a 3D printer and have printed some random things, including mounts, enclosures and random experiments.
+                            I have a 3D printer and have printed some random things,
+                            including mounts, enclosures and random experiments.
                         </p>
-
-                       
                     </div>
                 </div>
 
@@ -292,59 +291,59 @@ body::after {
         </div>
 
     </div>
-<script>
-    const cursor = document.querySelector(".cursor");
-    const ring = document.querySelector(".cursor-ring");
 
-    document.addEventListener("mousemove", (e) => {
-        cursor.style.left = e.clientX + "px";
-        cursor.style.top = e.clientY + "px";
+    <script>
 
-        ring.style.left = e.clientX + "px";
-        ring.style.top = e.clientY + "px";
-    });
+        const cursor = document.querySelector(".cursor");
 
-    /* Links */
+        document.addEventListener("mousemove", (e) => {
 
-    document.querySelectorAll("a").forEach((element) => {
+            cursor.style.left = e.clientX + "px";
+            cursor.style.top = e.clientY + "px";
 
-        element.addEventListener("mouseenter", () => {
-            cursor.classList.remove("text");
-            cursor.classList.add("hover");
-
-            ring.classList.add("hover");
-            ring.style.display = "block";
         });
 
-        element.addEventListener("mouseleave", () => {
-            cursor.classList.remove("hover");
-            ring.classList.remove("hover");
+        /* Links */
+
+        document.querySelectorAll("a").forEach((element) => {
+
+            element.addEventListener("mouseenter", () => {
+
+                cursor.classList.remove("text");
+                cursor.classList.add("hover");
+
+            });
+
+            element.addEventListener("mouseleave", () => {
+
+                cursor.classList.remove("hover");
+
+            });
+
         });
 
-    });
+        /* Text */
 
-    /* Text */
+        document.querySelectorAll(
+            "h1, h2, h3, h4, h5, h6, p, span, li"
+        ).forEach((element) => {
 
-    document.querySelectorAll(
-        "h1, h2, h3, h4, h5, h6, p, span, li"
-    ).forEach((element) => {
+            element.addEventListener("mouseenter", () => {
 
-        element.addEventListener("mouseenter", () => {
-            cursor.classList.remove("hover");
-            cursor.classList.add("text");
+                cursor.classList.remove("hover");
+                cursor.classList.add("text");
 
-            ring.classList.remove("hover");
-            ring.style.display = "none";
+            });
+
+            element.addEventListener("mouseleave", () => {
+
+                cursor.classList.remove("text");
+
+            });
+
         });
 
-        element.addEventListener("mouseleave", () => {
-            cursor.classList.remove("text");
+    </script>
 
-            ring.style.display = "block";
-        });
-
-    });
-</script>
 </body>
 </html>
-
