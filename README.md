@@ -8,9 +8,7 @@ My personal website made with HTML, CSS, and JavaScript.
 * Projects page
 * Contact section
 * Custom cursor
-* Live local time
 * Custom background and styling
-* Responsive layout
 
 ## Built With
 
