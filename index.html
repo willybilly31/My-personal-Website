@@ -4,59 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Liam</title>
+    <title>Liam.</title>
 
     <style>
         * {
             box-sizing: border-box;
+            cursor: none;
         }
 
         body {
-    margin: 0;
-    min-height: 100vh;
-    background: #11141a;
-    color: #d9dce2;
-    font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: #11141a;
+            color: #d9dce2;
+            font-family: Arial, sans-serif;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    position: relative;
-    overflow: hidden;
-}
+            position: relative;
+            overflow: hidden;
+        }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
 
-    background-image: url("Dawn_at_Parliament_Hill_in_Ottawa.jpg");
-    background-size: cover;
-    background-position: center;
+            background-image: url("Dawn_at_Parliament_Hill_in_Ottawa.jpg");
+            background-size: cover;
+            background-position: center;
 
-    opacity: 0.25;
-    filter: grayscale(100%);
+            opacity: 0.25;
+            filter: grayscale(100%);
 
-    z-index: -2;
-}
+            z-index: -2;
+        }
 
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
 
-    background: #11141a;
-    opacity: 0.65;
+            background: #11141a;
+            opacity: 0.65;
 
-    z-index: -1;
-}
+            z-index: -1;
+        }
 
         .page {
             width: 900px;
             max-width: 90%;
         }
-
 
         .profile {
             display: flex;
@@ -86,7 +86,7 @@ body::after {
 
         h1 {
             margin: 0 0 25px 0;
-            font-size: 42px;
+            font-size: 36px;
             color: #f0f1f3;
         }
 
@@ -114,6 +114,81 @@ body::after {
 
         a:hover {
             text-decoration: underline;
+        }
+
+        /* Main cursor */
+
+        .cursor {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: white;
+            mix-blend-mode: difference;
+
+            pointer-events: none;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 9999;
+
+            transition:
+                width 0.2s ease,
+                height 0.2s ease,
+                border-radius 0.2s ease;
+        }
+
+        /* Cursor when hovering a link */
+
+        .cursor.hover {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Cursor when hovering text */
+
+        .cursor.text {
+            width: 2px;
+            height: 20px;
+
+            border-radius: 0;
+
+            background: white;
+        }
+
+        /* Cursor ring */
+
+        .cursor-ring {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 10px;
+            height: 10px;
+
+            border: 1px solid rgba(255, 255, 255, 0.5);
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 10000;
+
+            transition:
+                width 0.2s ease,
+                height 0.2s ease;
+        }
+
+        .cursor-ring.hover {
+            width: 55px;
+            height: 55px;
         }
 
         @media (max-width: 800px) {
@@ -149,19 +224,22 @@ body::after {
 
 <body>
 
+    <div class="cursor"></div>
+    
+
     <div class="page">
 
         <div class="status">
-        
+            &#x20;
         </div>
 
         <div class="profile">
 
-            <img class="photo" src="MiiHeadshot.png" alt="">
+            <img class="photo" src="MiiHeadshotAni.gif" alt="">
 
             <div class="content">
 
-                <h1>Liam</h1>
+                <h1><b>Liam.</b></h1>
 
                 <div class="line">
                     <span class="icon">⚑</span>
@@ -217,6 +295,64 @@ body::after {
         </div>
 
     </div>
+
+    <script>
+        const cursor = document.querySelector(".cursor");
+        const ring = document.querySelector(".cursor-ring");
+
+        document.addEventListener("mousemove", (e) => {
+            cursor.style.left = e.clientX + "px";
+            cursor.style.top = e.clientY + "px";
+
+            ring.style.left = e.clientX + "px";
+            ring.style.top = e.clientY + "px";
+        });
+
+        /* Links */
+
+        const clickable = document.querySelectorAll("a");
+
+        clickable.forEach((element) => {
+
+            element.addEventListener("mouseenter", () => {
+                cursor.classList.remove("text");
+                cursor.classList.add("hover");
+
+                ring.classList.add("hover");
+                ring.style.display = "block";
+            });
+
+            element.addEventListener("mouseleave", () => {
+                cursor.classList.remove("hover");
+                ring.classList.remove("hover");
+            });
+
+        });
+
+        /* Text */
+
+        const textElements = document.querySelectorAll(
+            "h1, .line span:not(.icon)"
+        );
+
+        textElements.forEach((element) => {
+
+            element.addEventListener("mouseenter", () => {
+                cursor.classList.remove("hover");
+                cursor.classList.add("text");
+
+                ring.classList.remove("hover");
+                ring.style.display = "none";
+            });
+
+            element.addEventListener("mouseleave", () => {
+                cursor.classList.remove("text");
+
+                ring.style.display = "block";
+            });
+
+        });
+    </script>
 
 </body>
 </html>

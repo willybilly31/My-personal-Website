@@ -40,6 +40,53 @@ body::before {
 
     z-index: -2;
 }
+* {
+    cursor: none;
+}
+
+.cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: white;
+    mix-blend-mode: difference;
+
+    pointer-events: none;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 9999;
+
+    transition:
+        width 0.2s ease,
+        height 0.2s ease,
+        border-radius 0.2s ease;
+}
+
+/* Bigger when hovering links */
+
+.cursor.hover {
+    width: 30px;
+    height: 30px;
+}
+
+/* Thin line when hovering text */
+
+.cursor.text {
+    width: 2px;
+    height: 28px;
+
+    border-radius: 0;
+
+    background: white;
+}
+
 
 body::after {
     content: "";
@@ -112,10 +159,11 @@ body::after {
             object-fit: cover;
             display: block;
             background: #20242b;
+
         }
 
         .project-content {
-            padding: 20px;
+            padding: 15px;
         }
 
         .project h2 {
@@ -166,8 +214,8 @@ body::after {
         }
     </style>
 </head>
-
 <body>
+<div class="cursor"></div>
 
     <div class="page">
 
@@ -198,13 +246,11 @@ body::after {
 
 
                 <div class="project">
-                    <img class="project-image" src="project2.png" alt="Electronics projects">
-
+                    <img class="project-image" src="Electronics.Png" alt="Electronics projects">
                     <div class="project-content">
                         <h2>Electronics projects</h2>
-
                         <p>
-                            A collection of small electronics projects using Arduino,
+                            Small electronics projects using Arduino,
                             LEDs, buttons, sensors and buzzers.
                         </p>
 
@@ -228,14 +274,13 @@ body::after {
 
 
                 <div class="project">
-                    <img class="project-image" src="project4.png" alt="3D printing">
+                    <img class="project-image" src="3Dprinter.png" alt="3D printing">
 
                     <div class="project-content">
                         <h2>3D Printing</h2>
 
                         <p>
-                            Things I've designed and made with 3D printing,
-                            including parts, mounts and random experiments.
+                            I have a 3D printer and have printed some random things, including mounts, enclosures and random experiments.
                         </p>
 
                        
@@ -247,6 +292,59 @@ body::after {
         </div>
 
     </div>
+<script>
+    const cursor = document.querySelector(".cursor");
+    const ring = document.querySelector(".cursor-ring");
 
+    document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+
+        ring.style.left = e.clientX + "px";
+        ring.style.top = e.clientY + "px";
+    });
+
+    /* Links */
+
+    document.querySelectorAll("a").forEach((element) => {
+
+        element.addEventListener("mouseenter", () => {
+            cursor.classList.remove("text");
+            cursor.classList.add("hover");
+
+            ring.classList.add("hover");
+            ring.style.display = "block";
+        });
+
+        element.addEventListener("mouseleave", () => {
+            cursor.classList.remove("hover");
+            ring.classList.remove("hover");
+        });
+
+    });
+
+    /* Text */
+
+    document.querySelectorAll(
+        "h1, h2, h3, h4, h5, h6, p, span, li"
+    ).forEach((element) => {
+
+        element.addEventListener("mouseenter", () => {
+            cursor.classList.remove("hover");
+            cursor.classList.add("text");
+
+            ring.classList.remove("hover");
+            ring.style.display = "none";
+        });
+
+        element.addEventListener("mouseleave", () => {
+            cursor.classList.remove("text");
+
+            ring.style.display = "block";
+        });
+
+    });
+</script>
 </body>
 </html>
+
