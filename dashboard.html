@@ -444,10 +444,37 @@
             border-radius: 0;
         }
 
+        /* School stats */
+
+        .Year-Countdown p,
+        .Next-Break p {
+            margin: 5px 0;
+        }
+
+        .Progress-Bar {
+            width: 100%;
+            height: 6px;
+
+            background: #252932;
+            border-radius: 10px;
+            overflow: hidden;
+
+            margin: 20px 0;
+        }
+
+        #progress-fill {
+            width: 0%;
+            height: 100%;
+
+            background: white;
+            border-radius: 10px;
+
+            transition: width 0.5s ease;
+        }
+
         /* Mobile */
 
         @media (max-width: 700px) {
-
             .dashboard {
                 grid-template-columns: 1fr;
             }
@@ -529,14 +556,11 @@
 
             </div>
 
-
             <!-- Activity -->
 
             <div class="widget">
 
                 <h2>ACTIVITY</h2>
-
-                <!-- Online status -->
 
                 <div class="activity-status">
 
@@ -550,8 +574,6 @@
                     </span>
 
                 </div>
-
-                <!-- Dynamic activity -->
 
                 <div
                     id="activity-content"
@@ -574,13 +596,46 @@
 
             </div>
 
+            <!-- School stats -->
 
-            <!-- Third widget -->
+            <div class="widget">
 
-            <div class="widget placeholder">
-                Coming soon
+                <h2>SCHOOL STATS</h2>
+
+                <div class="Year-Countdown">
+
+                    <p>
+                        <span id="days-left">---</span>
+                        Days left
+                    </p>
+
+                    <b>
+                        <p>Ends June 16, 2027</p>
+                    </b>
+
+                </div>
+
+                <div class="Progress-Bar">
+
+                    <div id="progress-fill"></div>
+
+                </div>
+
+                <div class="Next-Break">
+
+                    <p>
+                        Next Break in
+                        <span id="break-days">---</span>
+                        Days
+                    </p>
+
+                    <p id="break-name">
+                        Loading...
+                    </p>
+
+                </div>
+
             </div>
-
 
             <!-- Fourth widget -->
 
@@ -592,19 +647,14 @@
 
     </div>
 
-
     <script>
 
-        /* =========================
-           CONFIG
-        ========================= */
+        /* Configuration */
 
         const DISCORD_ID = "1239176911046049883";
 
 
-        /* =========================
-           Ottawa clock
-        ========================= */
+        /* Ottawa clock */
 
         function updateOttawaTime() {
 
@@ -631,9 +681,7 @@
         );
 
 
-        /* =========================
-           Weather
-           ========================= */
+        /* Weather */
 
         const weatherDescriptions = {
 
@@ -750,9 +798,7 @@
         );
 
 
-        /* =========================
-           Activity
-           ========================= */
+        /* Activity */
 
         let activityTimer = null;
 
@@ -837,9 +883,7 @@
         }
 
 
-        /* =========================
-           Status colors
-           ========================= */
+        /* Status colors */
 
         function updateStatus(status) {
 
@@ -911,9 +955,50 @@
         }
 
 
-        /* =========================
-           Game timer
-           ========================= */
+        /* School status */
+
+        function checkSchoolStatus() {
+
+            const now = new Date();
+
+            const day = now.getDay();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            const currentMinutes =
+                hours * 60 + minutes;
+
+            const schoolStart =
+                8 * 60 + 10;
+
+            const schoolEnd =
+                14 * 60 + 30;
+
+            const weekday =
+                day >= 1 && day <= 5;
+
+
+            if (
+                weekday &&
+                currentMinutes >= schoolStart &&
+                currentMinutes < schoolEnd
+            ) {
+
+                updateStatus("idle");
+
+                document.getElementById(
+                    "status-text"
+                ).textContent =
+                    "At School";
+
+                return true;
+            }
+
+            return false;
+        }
+
+
+        /* Game timer */
 
         function startGameTimer(startTime) {
 
@@ -954,9 +1039,7 @@
         }
 
 
-        /* =========================
-           Music progress
-           ========================= */
+        /* Music progress */
 
         function startMusicProgress(
             startTime,
@@ -989,7 +1072,7 @@
                             100,
                             (elapsed /
                                 duration) *
-                                100
+                            100
                         )
                     );
 
@@ -1054,9 +1137,7 @@
         }
 
 
-        /* =========================
-           Find Apple Music artwork
-           ========================= */
+        /* Find Apple Music artwork */
 
         async function getAppleMusicArtwork(
             song,
@@ -1113,9 +1194,7 @@
         }
 
 
-        /* =========================
-           Music activity detection
-           ========================= */
+        /* Music activity detection */
 
         function findMusicActivity(
             activities
@@ -1129,16 +1208,12 @@
                     }
 
 
-                    /*
-                        Discord activity type 2
-                        generally represents
-                        listening activity.
-                    */
-
                     if (
                         activity.type === 2
                     ) {
+
                         return true;
+
                     }
 
 
@@ -1157,14 +1232,13 @@
                             "spotify"
                         )
                     );
+
                 }
             );
         }
 
 
-        /* =========================
-           Get activity
-           ========================= */
+        /* Get activity */
 
         async function getActivity() {
 
@@ -1195,10 +1269,14 @@
 
                 /* Status */
 
-                updateStatus(
-                    data.discord_status ||
-                    "offline"
-                );
+                if (!checkSchoolStatus()) {
+
+                    updateStatus(
+                        data.discord_status ||
+                        "offline"
+                    );
+
+                }
 
 
                 const container =
@@ -1211,9 +1289,7 @@
                     data.activities || [];
 
 
-                /* =========================
-                   MUSIC
-                   ========================= */
+                /* Music */
 
                 const musicActivity =
                     findMusicActivity(
@@ -1306,6 +1382,7 @@
                             </div>
 
                         </div>
+
                     `;
 
 
@@ -1327,10 +1404,7 @@
                 }
 
 
-                /*
-                    Apple Music / other
-                    listening activity
-                */
+                /* Apple Music / other listening activity */
 
                 if (
                     musicActivity &&
@@ -1367,9 +1441,7 @@
                     let artwork = "";
 
 
-                    /*
-                        Try activity artwork first
-                    */
+                    /* Try activity artwork first */
 
                     if (
                         musicActivity.assets &&
@@ -1407,13 +1479,11 @@
                                 `https://cdn.discordapp.com/app-assets/${musicActivity.application_id}/${largeImage}.png`;
 
                         }
+
                     }
 
 
-                    /*
-                        If there is no artwork,
-                        search Apple's catalog
-                    */
+                    /* Apple catalog artwork */
 
                     if (
                         !artwork &&
@@ -1473,39 +1543,40 @@
                             ?
                             `
 
-                            <div class="progress-section">
+                                <div class="progress-section">
 
-                                <div class="progress-bar">
+                                    <div class="progress-bar">
 
-                                    <div
-                                        class="progress"
-                                        id="music-progress"
-                                    ></div>
+                                        <div
+                                            class="progress"
+                                            id="music-progress"
+                                        ></div>
+
+                                    </div>
+
+                                    <div class="progress-time">
+
+                                        <span
+                                            id="music-current"
+                                        >
+                                            0:00
+                                        </span>
+
+                                        <span
+                                            id="music-total"
+                                        >
+                                            0:00
+                                        </span>
+
+                                    </div>
 
                                 </div>
-
-                                <div class="progress-time">
-
-                                    <span
-                                        id="music-current"
-                                    >
-                                        0:00
-                                    </span>
-
-                                    <span
-                                        id="music-total"
-                                    >
-                                        0:00
-                                    </span>
-
-                                </div>
-
-                            </div>
 
                             `
                             :
                             ""
                         }
+
                     `;
 
 
@@ -1533,9 +1604,7 @@
                 }
 
 
-                /* =========================
-                   GAMING
-                   ========================= */
+                /* Gaming */
 
                 const gameActivity =
                     activities.find(
@@ -1571,11 +1640,13 @@
                                 details
                                 ?
                                 `
-                                <div class="game-details">
-                                    ${escapeHtml(
-                                        details
-                                    )}
-                                </div>
+
+                                    <div class="game-details">
+                                        ${escapeHtml(
+                                            details
+                                        )}
+                                    </div>
+
                                 `
                                 :
                                 ""
@@ -1593,6 +1664,7 @@
                             </div>
 
                         </div>
+
                     `;
 
 
@@ -1618,9 +1690,7 @@
                 }
 
 
-                /* =========================
-                   OTHER ACTIVITY
-                   ========================= */
+                /* Other activity */
 
                 const otherActivity =
                     activities.find(
@@ -1651,17 +1721,20 @@
                                 otherActivity.details
                                 ?
                                 `
-                                <div class="game-details">
-                                    ${escapeHtml(
-                                        otherActivity.details
-                                    )}
-                                </div>
+
+                                    <div class="game-details">
+                                        ${escapeHtml(
+                                            otherActivity.details
+                                        )}
+                                    </div>
+
                                 `
                                 :
                                 ""
                             }
 
                         </div>
+
                     `;
 
 
@@ -1671,9 +1744,7 @@
                 }
 
 
-                /* =========================
-                   NOTHING
-                   ========================= */
+                /* Nothing */
 
                 clearActivityTimer();
 
@@ -1707,9 +1778,13 @@
                 clearActivityTimer();
 
 
-                updateStatus(
-                    "offline"
-                );
+                if (!checkSchoolStatus()) {
+
+                    updateStatus(
+                        "offline"
+                    );
+
+                }
 
 
                 document.getElementById(
@@ -1731,11 +1806,18 @@
                 `;
 
             }
+
         }
 
 
         getActivity();
 
+        checkSchoolStatus();
+
+        setInterval(
+            checkSchoolStatus,
+            60000
+        );
 
         /* Refresh activity every 30 seconds */
 
@@ -1745,9 +1827,7 @@
         );
 
 
-        /* =========================
-           Cursor
-           ========================= */
+        /* Cursor */
 
         const cursor =
             document.querySelector(
@@ -1850,6 +1930,152 @@
                 );
 
             }
+        );
+
+
+        /* School progress */
+
+        const schoolStart =
+            new Date("2026-09-08");
+
+        const schoolEnd =
+            new Date("2027-06-16");
+
+
+        const breaks = [
+
+            {
+                name: "Thanksgiving",
+                date: new Date("2026-10-12")
+            },
+
+            {
+                name: "Christmas Break",
+                date: new Date("2026-12-21")
+            },
+
+            {
+                name: "March Break",
+                date: new Date("2027-03-15")
+            }
+
+        ];
+
+
+        function updateSchoolStats() {
+
+            const now =
+                new Date();
+
+
+            /* Days left in school year */
+
+            const daysLeft =
+                Math.ceil(
+                    (schoolEnd - now) /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+            document.getElementById(
+                "days-left"
+            ).textContent =
+                Math.max(
+                    0,
+                    daysLeft
+                );
+
+
+            /* School year progress */
+
+            const totalTime =
+                schoolEnd -
+                schoolStart;
+
+
+            const elapsedTime =
+                now -
+                schoolStart;
+
+
+            let progress =
+                (elapsedTime /
+                    totalTime) *
+                100;
+
+
+            progress =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        progress
+                    )
+                );
+
+
+            document.getElementById(
+                "progress-fill"
+            ).style.width =
+                progress +
+                "%";
+
+
+            /* Find next break */
+
+            const nextBreak =
+                breaks.find(
+                    breakItem =>
+                        breakItem.date >
+                        now
+                );
+
+
+            if (nextBreak) {
+
+                const breakDays =
+                    Math.ceil(
+                        (nextBreak.date - now) /
+                        (1000 * 60 * 60 * 24)
+                    );
+
+
+                document.getElementById(
+                    "break-days"
+                ).textContent =
+                    breakDays;
+
+
+                document.getElementById(
+                    "break-name"
+                ).textContent =
+                    nextBreak.name;
+
+            }
+
+            else {
+
+                document.getElementById(
+                    "break-days"
+                ).textContent =
+                    "0";
+
+
+                document.getElementById(
+                    "break-name"
+                ).textContent =
+                    "Summer Break";
+
+            }
+
+        }
+
+
+        updateSchoolStats();
+
+        setInterval(
+            updateSchoolStats,
+            60000
         );
 
     </script>
