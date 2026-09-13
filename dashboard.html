@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liam. - Dashboard</title>
+
+    <link rel="icon" type="image/png" href="./Favicon.png">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background: #11141a;
+            color: #d9dce2;
+
+            font-family: Arial, sans-serif;
+
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background-image: url("Dawn_at_Parliament_Hill_in_Ottawa.jpg");
+            background-size: cover;
+            background-position: center;
+
+            opacity: 0.25;
+            filter: grayscale(100%);
+
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background: #11141a;
+            opacity: 0.65;
+
+            z-index: -1;
+        }
+
+        .page {
+            width: 900px;
+            max-width: 90%;
+
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        /* Top clock */
+
+        .local-time {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+
+            width: fit-content;
+            margin: 0 auto 20px auto;
+
+            padding: 14px 24px;
+
+            background: #15181e;
+            border: 1px solid #242830;
+            border-radius: 20px;
+
+            font-size: 20px;
+            letter-spacing: 1.5px;
+        }
+
+        .time-label {
+            color: #d9dce2;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        #ottawa-clock {
+            color: #d9dce2;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Dashboard */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        /* Widgets */
+
+        .widget {
+            background: #15181e;
+            border: 1px solid #242830;
+            border-radius: 20px;
+
+            padding: 24px;
+
+            min-height: 220px;
+        }
+
+        .widget h2 {
+            margin: 0 0 12px 0;
+
+            font-size: 18px;
+            color: #f0f1f3;
+
+            letter-spacing: 1px;
+        }
+
+        /* Weather */
+
+        .weather-top {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .weather-icon {
+            font-size: 42px;
+        }
+
+        .temperature {
+            font-size: 38px;
+            color: #f0f1f3;
+            font-weight: 600;
+        }
+
+        .condition {
+            margin-top: 4px;
+
+            font-size: 16px;
+            color: #aeb3bc;
+        }
+
+        .weather-bottom {
+            display: flex;
+            gap: 25px;
+
+            margin-top: 25px;
+
+            font-size: 14px;
+            color: #8f96a2;
+        }
+
+        /* Activity status */
+
+        .activity-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+            color: #8f96a2;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+            flex-shrink: 0;
+
+            background: #666d78;
+        }
+
+        .status-online {
+            background: #43b581;
+        }
+
+        .status-idle {
+            background: #faa61a;
+        }
+
+        .status-dnd {
+            background: #f04747;
+        }
+
+        .status-offline {
+            background: #666d78;
+        }
+
+        /* Activity */
+
+        .activity-content {
+            min-height: 125px;
+        }
+
+        .activity-empty {
+            height: 125px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            padding-top: 5px;
+
+            border-top: 1px solid #242830;
+        }
+
+        .activity-empty-title {
+            color: #aeb3bc;
+            font-size: 15px;
+        }
+
+        .activity-empty-subtitle {
+            margin-top: 6px;
+
+            color: #666d78;
+            font-size: 13px;
+        }
+
+        .activity-type {
+            font-size: 12px;
+            color: #777e89;
+
+            margin-bottom: 8px;
+
+            letter-spacing: 0.5px;
+        }
+
+        /* Music */
+
+        .music {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .album-art {
+            width: 65px;
+            height: 65px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            object-fit: cover;
+
+            background: #20242b;
+        }
+
+        .music-info {
+            min-width: 0;
+        }
+
+        .song-name {
+            color: #f0f1f3;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .artist-name {
+            margin-top: 5px;
+
+            color: #8f96a2;
+            font-size: 14px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .provider {
+            margin-top: 5px;
+
+            color: #666d78;
+            font-size: 12px;
+        }
+
+        /* Game */
+
+        .game {
+            padding-top: 4px;
+        }
+
+        .game-name {
+            color: #f0f1f3;
+
+            font-size: 24px;
+            font-weight: 600;
+
+            line-height: 1.2;
+        }
+
+        .game-details {
+            margin-top: 8px;
+
+            color: #8f96a2;
+            font-size: 14px;
+
+            line-height: 1.4;
+        }
+
+        .session {
+            margin-top: 20px;
+
+            color: #aeb3bc;
+            font-size: 14px;
+        }
+
+        .session-time {
+            margin-top: 4px;
+
+            color: #f0f1f3;
+            font-size: 20px;
+
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Music progress */
+
+        .progress-section {
+            margin-top: 18px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+
+            background: #242830;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+
+            background: #8f96a2;
+
+            border-radius: 10px;
+
+            transition: width 1s linear;
+        }
+
+        .progress-time {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 5px;
+
+            font-size: 11px;
+            color: #666d78;
+
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Empty widgets */
+
+        .placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #666d78;
+            font-size: 15px;
+        }
+
+        /* Back button */
+
+        .back-button {
+            display: inline-block;
+
+            margin-bottom: 20px;
+            padding: 10px 16px;
+
+            background: #15181e;
+            border: 1px solid #242830;
+            border-radius: 12px;
+
+            color: #aeb3bc;
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            color: #f0f1f3;
+            text-decoration: none;
+        }
+
+        /* Cursor */
+
+        .cursor {
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: white;
+            mix-blend-mode: difference;
+
+            pointer-events: none;
+
+            transform: translate(-50%, -50%);
+
+            z-index: 9999;
+
+            transition:
+                width 0.2s ease,
+                height 0.2s ease,
+                border-radius 0.2s ease;
+        }
+
+        .cursor.hover {
+            width: 30px;
+            height: 30px;
+        }
+
+        .cursor.text {
+            width: 2px;
+            height: 20px;
+
+            border-radius: 0;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .weather-bottom {
+                gap: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor"></div>
+
+    <div class="page">
+
+        <a href="index.html" class="back-button">← Back</a>
+
+        <!-- Top clock -->
+
+        <div class="local-time">
+            <span class="time-label">OTTAWA</span>
+            <span id="ottawa-clock">--:--:--</span>
+        </div>
+
+        <!-- Dashboard -->
+
+        <div class="dashboard">
+
+            <!-- Weather -->
+
+            <div class="widget">
+
+                <h2>OTTAWA WEATHER</h2>
+
+                <div class="weather-top">
+
+                    <div
+                        class="weather-icon"
+                        id="weather-icon"
+                    >
+                        --
+                    </div>
+
+                    <div>
+
+                        <div
+                            class="temperature"
+                            id="temperature"
+                        >
+                            --°
+                        </div>
+
+                        <div
+                            class="condition"
+                            id="condition"
+                        >
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="weather-bottom">
+
+                    <span>
+                        Feels
+                        <span id="feels">--°</span>
+                    </span>
+
+                    <span>
+                        Humidity
+                        <span id="humidity">--%</span>
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Activity -->
+
+            <div class="widget">
+
+                <h2>ACTIVITY</h2>
+
+                <!-- Online status -->
+
+                <div class="activity-status">
+
+                    <span
+                        id="status-dot"
+                        class="status-dot status-offline"
+                    ></span>
+
+                    <span id="status-text">
+                        Checking status...
+                    </span>
+
+                </div>
+
+                <!-- Dynamic activity -->
+
+                <div
+                    id="activity-content"
+                    class="activity-content"
+                >
+
+                    <div class="activity-empty">
+
+                        <div class="activity-empty-title">
+                            Checking activity
+                        </div>
+
+                        <div class="activity-empty-subtitle">
+                            Updating your current status
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Third widget -->
+
+            <div class="widget placeholder">
+                Coming soon
+            </div>
+
+
+            <!-- Fourth widget -->
+
+            <div class="widget placeholder">
+                Coming soon
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           CONFIG
+        ========================= */
+
+        const DISCORD_ID = "1239176911046049883";
+
+
+        /* =========================
+           Ottawa clock
+        ========================= */
+
+        function updateOttawaTime() {
+
+            const now = new Date();
+
+            const ottawaTime = new Intl.DateTimeFormat("en-CA", {
+                timeZone: "America/Toronto",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false
+            }).format(now);
+
+            document.getElementById(
+                "ottawa-clock"
+            ).textContent = ottawaTime;
+        }
+
+        updateOttawaTime();
+
+        setInterval(
+            updateOttawaTime,
+            1000
+        );
+
+
+        /* =========================
+           Weather
+           ========================= */
+
+        const weatherDescriptions = {
+
+            0: ["☀️", "Clear"],
+            1: ["🌤️", "Mostly clear"],
+            2: ["⛅", "Partly cloudy"],
+            3: ["☁️", "Cloudy"],
+
+            45: ["🌫️", "Foggy"],
+            48: ["🌫️", "Foggy"],
+
+            51: ["🌦️", "Light drizzle"],
+            53: ["🌦️", "Drizzle"],
+            55: ["🌧️", "Heavy drizzle"],
+
+            61: ["🌧️", "Light rain"],
+            63: ["🌧️", "Rain"],
+            65: ["🌧️", "Heavy rain"],
+
+            71: ["🌨️", "Light snow"],
+            73: ["❄️", "Snow"],
+            75: ["❄️", "Heavy snow"],
+
+            80: ["🌦️", "Rain showers"],
+            81: ["🌧️", "Rain showers"],
+            82: ["🌧️", "Heavy showers"],
+
+            95: ["⛈️", "Thunderstorm"],
+            96: ["⛈️", "Thunderstorm"],
+            99: ["⛈️", "Thunderstorm"]
+
+        };
+
+
+        async function getWeather() {
+
+            try {
+
+                const url =
+                    "https://api.open-meteo.com/v1/forecast" +
+                    "?latitude=45.4215" +
+                    "&longitude=-75.6972" +
+                    "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code" +
+                    "&timezone=America/Toronto";
+
+                const response =
+                    await fetch(url);
+
+                const data =
+                    await response.json();
+
+                const current =
+                    data.current;
+
+                const weatherInfo =
+                    weatherDescriptions[
+                        current.weather_code
+                    ] ||
+                    ["🌡️", "Unknown"];
+
+
+                document.getElementById(
+                    "weather-icon"
+                ).textContent =
+                    weatherInfo[0];
+
+
+                document.getElementById(
+                    "temperature"
+                ).textContent =
+                    Math.round(
+                        current.temperature_2m
+                    ) + "°";
+
+
+                document.getElementById(
+                    "condition"
+                ).textContent =
+                    weatherInfo[1];
+
+
+                document.getElementById(
+                    "feels"
+                ).textContent =
+                    Math.round(
+                        current.apparent_temperature
+                    ) + "°";
+
+
+                document.getElementById(
+                    "humidity"
+                ).textContent =
+                    current.relative_humidity_2m +
+                    "%";
+
+            }
+
+            catch (error) {
+
+                document.getElementById(
+                    "condition"
+                ).textContent =
+                    "Weather unavailable";
+
+            }
+        }
+
+
+        getWeather();
+
+        setInterval(
+            getWeather,
+            600000
+        );
+
+
+        /* =========================
+           Activity
+           ========================= */
+
+        let activityTimer = null;
+
+
+        function escapeHtml(text) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                text ?? "";
+
+            return div.innerHTML;
+        }
+
+
+        function formatTime(milliseconds) {
+
+            const totalSeconds =
+                Math.max(
+                    0,
+                    Math.floor(
+                        milliseconds / 1000
+                    )
+                );
+
+
+            const hours =
+                Math.floor(
+                    totalSeconds / 3600
+                );
+
+
+            const minutes =
+                Math.floor(
+                    (totalSeconds % 3600) / 60
+                );
+
+
+            const seconds =
+                totalSeconds % 60;
+
+
+            if (hours > 0) {
+
+                return (
+                    hours +
+                    ":" +
+                    minutes
+                        .toString()
+                        .padStart(2, "0") +
+                    ":" +
+                    seconds
+                        .toString()
+                        .padStart(2, "0")
+                );
+
+            }
+
+
+            return (
+                minutes +
+                ":" +
+                seconds
+                    .toString()
+                    .padStart(2, "0")
+            );
+        }
+
+
+        function clearActivityTimer() {
+
+            if (activityTimer) {
+
+                clearInterval(
+                    activityTimer
+                );
+
+                activityTimer = null;
+
+            }
+        }
+
+
+        /* =========================
+           Status colors
+           ========================= */
+
+        function updateStatus(status) {
+
+            const dot =
+                document.getElementById(
+                    "status-dot"
+                );
+
+
+            const text =
+                document.getElementById(
+                    "status-text"
+                );
+
+
+            dot.className =
+                "status-dot";
+
+
+            switch (status) {
+
+                case "online":
+
+                    dot.classList.add(
+                        "status-online"
+                    );
+
+                    text.textContent =
+                        "Online";
+
+                    break;
+
+
+                case "idle":
+
+                    dot.classList.add(
+                        "status-idle"
+                    );
+
+                    text.textContent =
+                        "Idle";
+
+                    break;
+
+
+                case "dnd":
+
+                    dot.classList.add(
+                        "status-dnd"
+                    );
+
+                    text.textContent =
+                        "Do Not Disturb";
+
+                    break;
+
+
+                default:
+
+                    dot.classList.add(
+                        "status-offline"
+                    );
+
+                    text.textContent =
+                        "Offline";
+
+                    break;
+            }
+        }
+
+
+        /* =========================
+           Game timer
+           ========================= */
+
+        function startGameTimer(startTime) {
+
+            clearActivityTimer();
+
+
+            function update() {
+
+                const elapsed =
+                    Date.now() -
+                    startTime;
+
+
+                const element =
+                    document.getElementById(
+                        "game-session"
+                    );
+
+
+                if (element) {
+
+                    element.textContent =
+                        formatTime(elapsed);
+
+                }
+
+            }
+
+
+            update();
+
+
+            activityTimer =
+                setInterval(
+                    update,
+                    1000
+                );
+        }
+
+
+        /* =========================
+           Music progress
+           ========================= */
+
+        function startMusicProgress(
+            startTime,
+            endTime
+        ) {
+
+            clearActivityTimer();
+
+
+            function update() {
+
+                const now =
+                    Date.now();
+
+
+                const elapsed =
+                    now -
+                    startTime;
+
+
+                const duration =
+                    endTime -
+                    startTime;
+
+
+                const percentage =
+                    Math.max(
+                        0,
+                        Math.min(
+                            100,
+                            (elapsed /
+                                duration) *
+                                100
+                        )
+                    );
+
+
+                const progress =
+                    document.getElementById(
+                        "music-progress"
+                    );
+
+
+                const current =
+                    document.getElementById(
+                        "music-current"
+                    );
+
+
+                const total =
+                    document.getElementById(
+                        "music-total"
+                    );
+
+
+                if (progress) {
+
+                    progress.style.width =
+                        percentage +
+                        "%";
+
+                }
+
+
+                if (current) {
+
+                    current.textContent =
+                        formatTime(
+                            elapsed
+                        );
+
+                }
+
+
+                if (total) {
+
+                    total.textContent =
+                        formatTime(
+                            duration
+                        );
+
+                }
+
+            }
+
+
+            update();
+
+
+            activityTimer =
+                setInterval(
+                    update,
+                    1000
+                );
+        }
+
+
+        /* =========================
+           Find Apple Music artwork
+           ========================= */
+
+        async function getAppleMusicArtwork(
+            song,
+            artist
+        ) {
+
+            try {
+
+                const searchTerm =
+                    encodeURIComponent(
+                        `${song} ${artist}`
+                    );
+
+
+                const response =
+                    await fetch(
+                        `https://itunes.apple.com/search?term=${searchTerm}&entity=song&limit=1&country=CA`
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    data.results &&
+                    data.results.length > 0
+                ) {
+
+                    return (
+                        data.results[0]
+                            .artworkUrl100
+                            ?.replace(
+                                "100x100",
+                                "300x300"
+                            ) ||
+                        ""
+                    );
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "Artwork lookup failed"
+                );
+
+            }
+
+
+            return "";
+        }
+
+
+        /* =========================
+           Music activity detection
+           ========================= */
+
+        function findMusicActivity(
+            activities
+        ) {
+
+            return activities.find(
+                activity => {
+
+                    if (!activity) {
+                        return false;
+                    }
+
+
+                    /*
+                        Discord activity type 2
+                        generally represents
+                        listening activity.
+                    */
+
+                    if (
+                        activity.type === 2
+                    ) {
+                        return true;
+                    }
+
+
+                    const name =
+                        (
+                            activity.name ||
+                            ""
+                        ).toLowerCase();
+
+
+                    return (
+                        name.includes(
+                            "apple music"
+                        ) ||
+                        name.includes(
+                            "spotify"
+                        )
+                    );
+                }
+            );
+        }
+
+
+        /* =========================
+           Get activity
+           ========================= */
+
+        async function getActivity() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!result.success) {
+
+                    throw new Error(
+                        "Lanyard request failed"
+                    );
+
+                }
+
+
+                const data =
+                    result.data;
+
+
+                /* Status */
+
+                updateStatus(
+                    data.discord_status ||
+                    "offline"
+                );
+
+
+                const container =
+                    document.getElementById(
+                        "activity-content"
+                    );
+
+
+                const activities =
+                    data.activities || [];
+
+
+                /* =========================
+                   MUSIC
+                   ========================= */
+
+                const musicActivity =
+                    findMusicActivity(
+                        activities
+                    );
+
+
+                if (
+                    data.listening_to_spotify &&
+                    data.spotify
+                ) {
+
+                    const spotify =
+                        data.spotify;
+
+
+                    const song =
+                        spotify.song ||
+                        "Unknown song";
+
+
+                    const artist =
+                        spotify.artist ||
+                        "Unknown artist";
+
+
+                    const albumArt =
+                        spotify.album_art_url ||
+                        "";
+
+
+                    container.innerHTML = `
+
+                        <div class="activity-type">
+                            LISTENING
+                        </div>
+
+                        <div class="music">
+
+                            <img
+                                class="album-art"
+                                id="music-art"
+                                src="${escapeHtml(albumArt)}"
+                                alt=""
+                            >
+
+                            <div class="music-info">
+
+                                <div class="song-name">
+                                    ${escapeHtml(song)}
+                                </div>
+
+                                <div class="artist-name">
+                                    ${escapeHtml(artist)}
+                                </div>
+
+                                <div class="provider">
+                                    Spotify
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="progress-section">
+
+                            <div class="progress-bar">
+
+                                <div
+                                    class="progress"
+                                    id="music-progress"
+                                ></div>
+
+                            </div>
+
+                            <div class="progress-time">
+
+                                <span
+                                    id="music-current"
+                                >
+                                    0:00
+                                </span>
+
+                                <span
+                                    id="music-total"
+                                >
+                                    0:00
+                                </span>
+
+                            </div>
+
+                        </div>
+                    `;
+
+
+                    if (
+                        spotify.timestamps &&
+                        spotify.timestamps.start &&
+                        spotify.timestamps.end
+                    ) {
+
+                        startMusicProgress(
+                            spotify.timestamps.start,
+                            spotify.timestamps.end
+                        );
+
+                    }
+
+
+                    return;
+                }
+
+
+                /*
+                    Apple Music / other
+                    listening activity
+                */
+
+                if (
+                    musicActivity &&
+                    musicActivity.name
+                ) {
+
+                    const name =
+                        musicActivity.name;
+
+
+                    const lowerName =
+                        name.toLowerCase();
+
+
+                    const isAppleMusic =
+                        lowerName.includes(
+                            "apple music"
+                        );
+
+
+                    const song =
+                        musicActivity.details ||
+                        musicActivity.state ||
+                        "Unknown song";
+
+
+                    const artist =
+                        musicActivity.state &&
+                        musicActivity.details
+                        ? musicActivity.state
+                        : "";
+
+
+                    let artwork = "";
+
+
+                    /*
+                        Try activity artwork first
+                    */
+
+                    if (
+                        musicActivity.assets &&
+                        musicActivity.assets.large_image
+                    ) {
+
+                        let largeImage =
+                            musicActivity
+                                .assets
+                                .large_image;
+
+
+                        if (
+                            largeImage.startsWith(
+                                "mp:"
+                            )
+                        ) {
+
+                            const imagePath =
+                                largeImage
+                                    .replace(
+                                        "mp:",
+                                        ""
+                                    );
+
+
+                            artwork =
+                                `https://media.discordapp.net/${imagePath}`;
+
+                        }
+
+                        else {
+
+                            artwork =
+                                `https://cdn.discordapp.com/app-assets/${musicActivity.application_id}/${largeImage}.png`;
+
+                        }
+                    }
+
+
+                    /*
+                        If there is no artwork,
+                        search Apple's catalog
+                    */
+
+                    if (
+                        !artwork &&
+                        isAppleMusic
+                    ) {
+
+                        artwork =
+                            await getAppleMusicArtwork(
+                                song,
+                                artist
+                            );
+
+                    }
+
+
+                    container.innerHTML = `
+
+                        <div class="activity-type">
+                            LISTENING
+                        </div>
+
+                        <div class="music">
+
+                            <img
+                                class="album-art"
+                                id="music-art"
+                                src="${escapeHtml(artwork)}"
+                                alt=""
+                            >
+
+                            <div class="music-info">
+
+                                <div class="song-name">
+                                    ${escapeHtml(song)}
+                                </div>
+
+                                <div class="artist-name">
+                                    ${escapeHtml(artist)}
+                                </div>
+
+                                <div class="provider">
+                                    ${
+                                        isAppleMusic
+                                        ? "Apple Music"
+                                        : "Music"
+                                    }
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        ${
+                            musicActivity.timestamps &&
+                            musicActivity.timestamps.start &&
+                            musicActivity.timestamps.end
+                            ?
+                            `
+
+                            <div class="progress-section">
+
+                                <div class="progress-bar">
+
+                                    <div
+                                        class="progress"
+                                        id="music-progress"
+                                    ></div>
+
+                                </div>
+
+                                <div class="progress-time">
+
+                                    <span
+                                        id="music-current"
+                                    >
+                                        0:00
+                                    </span>
+
+                                    <span
+                                        id="music-total"
+                                    >
+                                        0:00
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            `
+                            :
+                            ""
+                        }
+                    `;
+
+
+                    if (
+                        musicActivity.timestamps &&
+                        musicActivity.timestamps.start &&
+                        musicActivity.timestamps.end
+                    ) {
+
+                        startMusicProgress(
+                            musicActivity.timestamps.start,
+                            musicActivity.timestamps.end
+                        );
+
+                    }
+
+                    else {
+
+                        clearActivityTimer();
+
+                    }
+
+
+                    return;
+                }
+
+
+                /* =========================
+                   GAMING
+                   ========================= */
+
+                const gameActivity =
+                    activities.find(
+                        item =>
+                            item.type === 0 &&
+                            item.name
+                    );
+
+
+                if (gameActivity) {
+
+                    const details =
+                        gameActivity.details ||
+                        gameActivity.state ||
+                        "";
+
+
+                    container.innerHTML = `
+
+                        <div class="activity-type">
+                            PLAYING
+                        </div>
+
+                        <div class="game">
+
+                            <div class="game-name">
+                                ${escapeHtml(
+                                    gameActivity.name
+                                )}
+                            </div>
+
+                            ${
+                                details
+                                ?
+                                `
+                                <div class="game-details">
+                                    ${escapeHtml(
+                                        details
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                            <div class="session">
+                                Session time
+                            </div>
+
+                            <div
+                                class="session-time"
+                                id="game-session"
+                            >
+                                0:00
+                            </div>
+
+                        </div>
+                    `;
+
+
+                    if (
+                        gameActivity.timestamps &&
+                        gameActivity.timestamps.start
+                    ) {
+
+                        startGameTimer(
+                            gameActivity.timestamps.start
+                        );
+
+                    }
+
+                    else {
+
+                        clearActivityTimer();
+
+                    }
+
+
+                    return;
+                }
+
+
+                /* =========================
+                   OTHER ACTIVITY
+                   ========================= */
+
+                const otherActivity =
+                    activities.find(
+                        item =>
+                            item.name &&
+                            item.type !== 4 &&
+                            item.type !== 2
+                    );
+
+
+                if (otherActivity) {
+
+                    container.innerHTML = `
+
+                        <div class="activity-type">
+                            ACTIVITY
+                        </div>
+
+                        <div class="game">
+
+                            <div class="game-name">
+                                ${escapeHtml(
+                                    otherActivity.name
+                                )}
+                            </div>
+
+                            ${
+                                otherActivity.details
+                                ?
+                                `
+                                <div class="game-details">
+                                    ${escapeHtml(
+                                        otherActivity.details
+                                    )}
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+                    `;
+
+
+                    clearActivityTimer();
+
+                    return;
+                }
+
+
+                /* =========================
+                   NOTHING
+                   ========================= */
+
+                clearActivityTimer();
+
+
+                container.innerHTML = `
+
+                    <div class="activity-empty">
+
+                        <div class="activity-empty-title">
+                            Nothing happening right now
+                        </div>
+
+                        <div class="activity-empty-subtitle">
+                            No music or games detected
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Activity error:",
+                    error
+                );
+
+
+                clearActivityTimer();
+
+
+                updateStatus(
+                    "offline"
+                );
+
+
+                document.getElementById(
+                    "activity-content"
+                ).innerHTML = `
+
+                    <div class="activity-empty">
+
+                        <div class="activity-empty-title">
+                            Activity unavailable
+                        </div>
+
+                        <div class="activity-empty-subtitle">
+                            Unable to update activity
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        }
+
+
+        getActivity();
+
+
+        /* Refresh activity every 30 seconds */
+
+        setInterval(
+            getActivity,
+            30000
+        );
+
+
+        /* =========================
+           Cursor
+           ========================= */
+
+        const cursor =
+            document.querySelector(
+                ".cursor"
+            );
+
+
+        document.addEventListener(
+            "mousemove",
+            (e) => {
+
+                cursor.style.left =
+                    e.clientX + "px";
+
+                cursor.style.top =
+                    e.clientY + "px";
+
+            }
+        );
+
+
+        /* Links */
+
+        const clickable =
+            document.querySelectorAll(
+                "a"
+            );
+
+
+        clickable.forEach(
+            (element) => {
+
+                element.addEventListener(
+                    "mouseenter",
+                    () => {
+
+                        cursor.classList.remove(
+                            "text"
+                        );
+
+                        cursor.classList.add(
+                            "hover"
+                        );
+
+                    }
+                );
+
+
+                element.addEventListener(
+                    "mouseleave",
+                    () => {
+
+                        cursor.classList.remove(
+                            "hover"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* Text cursor */
+
+        const textElements =
+            document.querySelectorAll(
+                ".widget h2, .temperature, .condition, .weather-bottom, .local-time, .activity-content, .activity-status"
+            );
+
+
+        textElements.forEach(
+            (element) => {
+
+                element.addEventListener(
+                    "mouseenter",
+                    () => {
+
+                        cursor.classList.remove(
+                            "hover"
+                        );
+
+                        cursor.classList.add(
+                            "text"
+                        );
+
+                    }
+                );
+
+
+                element.addEventListener(
+                    "mouseleave",
+                    () => {
+
+                        cursor.classList.remove(
+                            "text"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

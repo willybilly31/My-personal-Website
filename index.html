@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,8 @@
 
     <title>Liam.</title>
 
+    <link rel="icon" type="image/png" href="./Favicon.png">
+
     <style>
         * {
             box-sizing: border-box;
@@ -13,21 +16,21 @@
         }
 
         body {
-        margin: 0;
-        min-height: 100vh;
-        background: #11141a;
-        color: #d9dce2;
-        font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: #11141a;
+            color: #d9dce2;
+            font-family: Arial, sans-serif;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-         position: relative;
+            position: relative;
 
-        overflow-x: hidden;
-     overflow-y: auto;
-    }
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
 
         body::before {
             content: "";
@@ -56,9 +59,42 @@
         }
 
         .page {
-    width: 900px;
-    max-width: 90%;
-    padding: 40px 0;
+            width: 900px;
+            max-width: 90%;
+            padding: 40px 0;
+        }
+
+        /* Ottawa clock */
+
+        .local-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: fit-content;
+    margin: 0 auto 20px auto;
+    padding: 14px 24px;
+
+    background: #15181e;
+    border: 1px solid #242830;
+    border-radius: 20px;
+
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    color: #aeb3bc;
+}
+
+.time-label {
+    color: #d9dce2;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+#ottawa-clock {
+    color: #d9dce2;
+    font-variant-numeric: tabular-nums;
 }
 
         .profile {
@@ -68,6 +104,7 @@
             gap: 55px;
 
             padding: 45px;
+
             background: #15181e;
             border: 1px solid #242830;
             border-radius: 20px;
@@ -89,6 +126,7 @@
 
         h1 {
             margin: 0 0 25px 0;
+
             font-size: 36px;
             color: #f0f1f3;
         }
@@ -96,22 +134,25 @@
         .line {
             display: flex;
             gap: 16px;
+
             margin: 18px 0;
 
             font-size: 17px;
             line-height: 1.5;
+
             color: #aeb3bc;
         }
 
         .icon {
             width: 22px;
             flex-shrink: 0;
+
             color: #777e89;
             font-size: 18px;
         }
 
         a {
-            color: #353388;
+            color: #45a2fa;
             text-decoration: none;
         }
 
@@ -146,14 +187,10 @@
                 border-radius 0.2s ease;
         }
 
-        /* Cursor when hovering a link */
-
         .cursor.hover {
             width: 30px;
             height: 30px;
         }
-
-        /* Cursor when hovering text */
 
         .cursor.text {
             width: 2px;
@@ -164,40 +201,7 @@
             background: white;
         }
 
-        /* Cursor ring */
-
-        .cursor-ring {
-            position: fixed;
-            left: 0;
-            top: 0;
-
-            width: 10px;
-            height: 10px;
-
-            border: 1px solid rgba(255, 255, 255, 0.5);
-
-            border-radius: 50%;
-
-            pointer-events: none;
-
-            transform: translate(-50%, -50%);
-
-            z-index: 10000;
-
-            transition:
-                width 0.2s ease,
-                height 0.2s ease;
-        }
-
-        .cursor-ring.hover {
-            width: 55px;
-            height: 55px;
-        }
-
         @media (max-width: 800px) {
-            .status {
-                margin-bottom: 60px;
-            }
 
             .profile {
                 flex-direction: column;
@@ -221,24 +225,24 @@
             .line {
                 font-size: 16px;
             }
+
+            .local-time {
+                margin-bottom: 20px;
+            }
         }
     </style>
-     <meta charset="UTF-8">
-    <title>Liam's Website</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="icon" type="image/png" href="./Favicon.png">
 </head>
 
 <body>
 
     <div class="cursor"></div>
-    
 
     <div class="page">
 
-        <div class="status">
-            &#x20;
-        </div>
+    <div class="local-time">
+        <span class="time-label">OTTAWA</span>
+        <span id="ottawa-clock">--:--:--</span>
+    </div>
 
         <div class="profile">
 
@@ -283,17 +287,28 @@
                     <span class="icon">↗</span>
                     <span>
                         check out my
-                        <a href="projects.html">projects</a>
+                        <a href="projects.html"><b>projects</b></a>
                         and
-                        <a href="https://github.com/willybilly31">GitHub</a>
+                        <a href="https://github.com/willybilly31">
+                            <b>GitHub</b>
+                        </a>
                     </span>
                 </div>
-
+                
+                <div class="line">
+                    <span class="icon">⌁</span>
+                    <span>
+                        Check out the <a href="dashboard.html"><b>Dashboard</b></a> for a peek into whats going on with my life.
+                    </span>
+                </div>
+                
                 <div class="line">
                     <span class="icon">@</span>
                     <span>
                         reachable via
-                        <a href="mailto:mrliamcarlson@gmail.com">email</a>
+                        <a href="mailto:mrliamcarlson@gmail.com">
+                            <b>email</b>
+                        </a>
                     </span>
                 </div>
 
@@ -305,14 +320,10 @@
 
     <script>
         const cursor = document.querySelector(".cursor");
-        const ring = document.querySelector(".cursor-ring");
 
         document.addEventListener("mousemove", (e) => {
             cursor.style.left = e.clientX + "px";
             cursor.style.top = e.clientY + "px";
-
-            ring.style.left = e.clientX + "px";
-            ring.style.top = e.clientY + "px";
         });
 
         /* Links */
@@ -324,14 +335,10 @@
             element.addEventListener("mouseenter", () => {
                 cursor.classList.remove("text");
                 cursor.classList.add("hover");
-
-                ring.classList.add("hover");
-                ring.style.display = "block";
             });
 
             element.addEventListener("mouseleave", () => {
                 cursor.classList.remove("hover");
-                ring.classList.remove("hover");
             });
 
         });
@@ -347,19 +354,36 @@
             element.addEventListener("mouseenter", () => {
                 cursor.classList.remove("hover");
                 cursor.classList.add("text");
-
-                ring.classList.remove("hover");
-                ring.style.display = "none";
             });
 
             element.addEventListener("mouseleave", () => {
                 cursor.classList.remove("text");
-
-                ring.style.display = "block";
             });
 
         });
+
+        /* Ottawa clock */
+
+        function updateOttawaTime() {
+
+            const now = new Date();
+
+            const ottawaTime = new Intl.DateTimeFormat("en-CA", {
+                timeZone: "America/Toronto",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false
+            }).format(now);
+
+            document.getElementById("ottawa-clock").textContent = ottawaTime;
+        }
+
+        updateOttawaTime();
+
+        setInterval(updateOttawaTime, 1000);
     </script>
 
 </body>
 </html>
+
