@@ -2097,30 +2097,40 @@
             60000
         );
 
-        /*Website uptime */
+        /* Website uptime */
 
-        const websiteStartTime = Date.now();
+        // Set the date and time when you want the uptime counter to start.
+        // Format: YYYY-MM-DDTHH:MM:SS
+        const websiteStartTime = new Date("2026-09-19T08:00:00");
 
-        function updateUptime(){
-            const elapsed = Date.now() - websiteStartTime;
+        function updateUptime() {
 
-            const totalSeconds = Math.floor(elapsed / 1000);
+            const elapsed = Date.now() - websiteStartTime.getTime();
+
+            const totalSeconds = Math.max(0, Math.floor(elapsed / 1000));
 
             const days = Math.floor(totalSeconds / 86400);
-            const hours = Math.floor((totalSeconds % 86400) / 3600);
-            const minutes = Math.floor((totalSeconds % 3600)/ 60)
+
+            const hours = Math.floor(
+                (totalSeconds % 86400) / 3600
+            );
+
+            const minutes = Math.floor(
+                (totalSeconds % 3600) / 60
+            );
+
             const seconds = totalSeconds % 60;
 
-              document.getElementById("uptime-time").textContent =
-            `${hours.toString().padStart(2, "0")}:` +
-            `${minutes.toString().padStart(2, "0")}:` +
-            `${seconds.toString().padStart(2, "0")}`;
+            document.getElementById("uptime-time").textContent =
+                `${hours.toString().padStart(2, "0")}:` +
+                `${minutes.toString().padStart(2, "0")}:` +
+                `${seconds.toString().padStart(2, "0")}`;
 
-        document.getElementById("uptime-days").textContent =
-            `${days} ${days === 1 ? "day" : "days"}`;
+            document.getElementById("uptime-days").textContent =
+                `${days} ${days === 1 ? "day" : "days"}`;
         }
 
-        updateUptime ();
+        updateUptime();
 
         setInterval(updateUptime, 1000);
 
