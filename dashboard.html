@@ -646,6 +646,20 @@
                 <p><B>Album:</B> Pinkerton </p>
                 <p><b>Language:</b> HTML</p>
             </div>
+
+            <div class="widget">
+                <h2>Website Uptime</h2>
+                <div class="uptime">
+                    <div class="uptime-status">
+                        <span class="status-dot status-online"></span>
+                        <h3>ONLINE</h3>
+                    </div>
+
+                    <div id="uptime-time">00:00:00</div>
+                    <br>
+                    <div id="uptime-days">0 days</div>
+                </div>
+            </div>  
             
 
         </div>
@@ -2082,6 +2096,33 @@
             updateSchoolStats,
             60000
         );
+
+        /*Website uptime */
+
+        const websiteStartTime = Date.now();
+
+        function updateUptime(){
+            const elapsed = Date.now() - websiteStartTime;
+
+            const totalSeconds = Math.floor(elapsed / 1000);
+
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600)/ 60)
+            const seconds = totalSeconds % 60;
+
+              document.getElementById("uptime-time").textContent =
+            `${hours.toString().padStart(2, "0")}:` +
+            `${minutes.toString().padStart(2, "0")}:` +
+            `${seconds.toString().padStart(2, "0")}`;
+
+        document.getElementById("uptime-days").textContent =
+            `${days} ${days === 1 ? "day" : "days"}`;
+        }
+
+        updateUptime ();
+
+        setInterval(updateUptime, 1000);
 
     </script>
 
